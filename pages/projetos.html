@@ -9,8 +9,8 @@
     />
     <title>Projetos | ONG Esperança</title>
     <link rel="stylesheet" href="../css/style.css" />
-    <script src="../js/history.js" defer></script>
-    <script src="../js/cadastro.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script type="module" src="../js/main.js"></script>
   </head>
   <body>
     <header>
@@ -32,22 +32,24 @@
     <main class="projetos">
       <h2>Iniciativas Solidárias</h2>
 
-      <article class="projeto">
-        <h3>Programa Código Cidadão</h3>
-        <p>
-          Oficinas gratuitas de lógica de programação e desenvolvimento web para
-          jovens do ensino médio público. O projeto visa inserir novos talentos
-          no mercado de tecnologia.
-        </p>
-      </article>
+      <section data-project-list aria-label="Projetos da ONG Esperança">
+        <article class="projeto">
+          <h3>Programa Código Cidadão</h3>
+          <p>
+            Oficinas gratuitas de lógica de programação e desenvolvimento web para
+            jovens do ensino médio público. O projeto visa inserir novos talentos
+            no mercado de tecnologia.
+          </p>
+        </article>
 
-      <article class="projeto">
-        <h3>Inclusão Digital para Terceira Idade</h3>
-        <p>
-          Aulas práticas de uso de smartphones, segurança na internet e
-          navegação básica, promovendo a independência tecnológica de idosos.
-        </p>
-      </article>
+        <article class="projeto">
+          <h3>Inclusão Digital para Terceira Idade</h3>
+          <p>
+            Aulas práticas de uso de smartphones, segurança na internet e
+            navegação básica, promovendo a independência tecnológica de idosos.
+          </p>
+        </article>
+      </section>
     </main>
 
     <footer>

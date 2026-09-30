@@ -297,6 +297,18 @@ section img {
     margin-bottom: 0;
 }
 
+.projetos > [data-project-list] {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
 .projeto {
     grid-column: span 6;
     display: flex;
@@ -350,6 +362,24 @@ form {
     border-color: var(--color-primary-dark);
     background: var(--color-secondary-light);
     color: var(--color-neutral-900);
+}
+
+.ong-alerta-custom {
+    border: 1px solid var(--color-primary-base);
+    border-radius: 4px;
+    background: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+    font-family: inherit;
+}
+
+.ong-alerta-custom .swal2-title,
+.ong-alerta-custom .swal2-html-container {
+    color: var(--color-neutral-900);
+    font-family: inherit;
+}
+
+.ong-alerta-custom .swal2-timer-progress-bar {
+    background: var(--color-primary-base);
 }
 
 .field-feedback {
