@@ -25,6 +25,7 @@ const renderPage = (documentMarkup, url) => {
     else link.removeAttribute("aria-current");
   });
 
+  document.dispatchEvent(new CustomEvent("page:rendered"));
   closeMenus();
   window.scrollTo(0, 0);
 };

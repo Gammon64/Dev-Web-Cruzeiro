@@ -1,4 +1,42 @@
 const formStates = new WeakMap();
+const volunteerStorageKey = "voluntarios_ong";
+
+const readVolunteers = () => {
+  const storedVolunteers = localStorage.getItem(volunteerStorageKey);
+  if (!storedVolunteers) return [];
+
+  const volunteers = JSON.parse(storedVolunteers);
+  if (!Array.isArray(volunteers)) throw new Error("O histórico de cadastros está inválido.");
+  return volunteers;
+};
+
+const renderVolunteerList = () => {
+  const list = document.querySelector("#volunteer-history-list");
+  const emptyMessage = document.querySelector("#volunteer-history-empty");
+  if (!list || !emptyMessage) return;
+
+  try {
+    const volunteers = readVolunteers();
+    list.replaceChildren();
+    volunteers.forEach((volunteer) => {
+      if (!volunteer || typeof volunteer.nome !== "string" || typeof volunteer.email !== "string") return;
+
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      name.textContent = volunteer.nome;
+      item.append(name, document.createTextNode(` - ${volunteer.email}`));
+      list.append(item);
+    });
+    emptyMessage.hidden = list.childElementCount > 0;
+  } catch {
+    list.replaceChildren();
+    emptyMessage.textContent = "Não foi possível recuperar o histórico salvo neste dispositivo.";
+    emptyMessage.hidden = false;
+  }
+};
+
+document.addEventListener("DOMContentLoaded", renderVolunteerList);
+document.addEventListener("page:rendered", renderVolunteerList);
 
 const getFormState = (form) => {
   if (!formStates.has(form)) {
@@ -87,10 +125,14 @@ document.addEventListener("submit", async (event) => {
   state.submissionAttempted = true;
   statusMessage.hidden = true;
 
+  const isValid = form.checkValidity();
   fields.forEach((field) => showFieldFeedback(form, field));
-  const invalidFields = refreshErrorSummary(form, fields);
+  const invalidFields = isValid
+    ? []
+    : fields.filter((field) => !field.validity.valid);
 
   if (invalidFields.length > 0) {
+    refreshErrorSummary(form, fields);
     invalidFields[0].focus();
     return;
   }
@@ -111,12 +153,34 @@ document.addEventListener("submit", async (event) => {
     message: "Cadastro recebido com sucesso. Nossa equipe entrará em contato.",
   };
 
+  if (simulatedResponse.ok) {
+    try {
+      const volunteer = {
+        ...Object.fromEntries(new FormData(form).entries()),
+        protocol: simulatedResponse.protocol,
+        submittedAt: new Date().toISOString(),
+      };
+      const volunteers = readVolunteers();
+      volunteers.push(volunteer);
+      localStorage.setItem(volunteerStorageKey, JSON.stringify(volunteers));
+      renderVolunteerList();
+    } catch {
+      form.removeAttribute("aria-busy");
+      submitButton.disabled = false;
+      submitButton.textContent = "Enviar Cadastro";
+      statusMessage.textContent = "Não foi possível salvar seu cadastro neste dispositivo. Tente novamente.";
+      statusMessage.hidden = false;
+      return;
+    }
+  }
+
   form.removeAttribute("aria-busy");
   submitButton.disabled = false;
   submitButton.textContent = "Enviar Cadastro";
 
   if (simulatedResponse.ok) {
     statusMessage.textContent = `${simulatedResponse.message} Protocolo: ${simulatedResponse.protocol}.`;
+    statusMessage.hidden = false;
     form.reset();
     fields.forEach((field) => {
       field.classList.remove("is-invalid");
@@ -125,5 +189,9 @@ document.addEventListener("submit", async (event) => {
     });
     state.submissionAttempted = false;
     state.touchedFields.clear();
+    window.setTimeout(() => {
+      statusMessage.hidden = true;
+      statusMessage.textContent = "";
+    }, 5000);
   }
 });

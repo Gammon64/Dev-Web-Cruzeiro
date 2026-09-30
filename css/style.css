@@ -341,6 +341,12 @@ form {
 }
 
 .form-feedback--status {
+    position: fixed;
+    z-index: 10;
+    right: var(--spacing-md);
+    bottom: var(--spacing-md);
+    width: min(28rem, calc(100vw - 2rem));
+    box-shadow: 0 4px 16px rgb(0 0 0 / 14%);
     border-color: var(--color-primary-dark);
     background: var(--color-secondary-light);
     color: var(--color-neutral-900);
