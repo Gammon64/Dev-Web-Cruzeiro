@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Cadastre-se para ser um voluntário da ONG Esperança."
+    />
+    <title>Cadastro de Voluntários | ONG Esperança</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/history.js" defer></script>
+    <script src="../js/cadastro.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>ONG Esperança</h1>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-list" aria-label="Abrir menu">
+          <span class="menu-icon" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html" data-link>Início</a></li>
+          <li><a href="projetos.html" data-link>Nossos Projetos</a></li>
+          <li>
+            <a href="cadastro.html" data-link aria-current="page">Seja um Voluntário</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Faça Parte da Nossa Equipe</h2>
+      <p>Preencha o formulário abaixo para se registrar como voluntário.</p>
+
+      <form id="cadastro-form" action="#" method="POST" novalidate>
+        <div class="form-feedback form-feedback--error" id="form-errors" role="alert" tabindex="-1" hidden></div>
+        <div class="form-feedback form-feedback--status" id="form-status" role="status" aria-live="polite" hidden></div>
+
+        <fieldset>
+          <legend>Dados Pessoais</legend>
+
+          <label for="nome">Nome Completo:</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            required
+            minlength="3"
+            placeholder="Ex: João da Silva"
+            aria-describedby="nome-feedback"
+          />
+          <small class="field-feedback" id="nome-feedback"></small>
+
+          <label for="email">E-mail Institucional ou Pessoal:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="joao@email.com"
+            aria-describedby="email-feedback"
+          />
+          <small class="field-feedback" id="email-feedback"></small>
+
+          <label for="cpf">CPF:</label>
+          <!-- Pattern nativo do HTML5 para garantir o formato antes do envio -->
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            required
+            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+            placeholder="000.000.000-00"
+            maxlength="14"
+            aria-describedby="cpf-feedback"
+          />
+          <small class="field-feedback" id="cpf-feedback"></small>
+        </fieldset>
+
+        <fieldset>
+          <legend>Contato e Endereço</legend>
+
+          <label for="telefone">Telefone (Celular):</label>
+          <input
+            type="tel"
+            id="telefone"
+            name="telefone"
+            required
+            pattern="\(\d{2}\)\s\d{5}-\d{4}"
+            placeholder="(00) 00000-0000"
+            maxlength="15"
+            aria-describedby="telefone-feedback"
+          />
+          <small class="field-feedback" id="telefone-feedback"></small>
+
+          <label for="cep">CEP:</label>
+          <input
+            type="text"
+            id="cep"
+            name="cep"
+            required
+            pattern="\d{5}-\d{3}"
+            placeholder="00000-000"
+            maxlength="9"
+            aria-describedby="cep-feedback"
+          />
+          <small class="field-feedback" id="cep-feedback"></small>
+        </fieldset>
+
+        <button id="submit-cadastro" type="submit">Enviar Cadastro</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 ONG Esperança. Apoiando o terceiro setor brasileiro.</p>
+    </footer>
+
+  </body>
+</html>
