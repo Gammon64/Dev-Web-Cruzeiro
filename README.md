@@ -15,20 +15,24 @@ O arquivo [css/arch.md](css/arch.md) registra decisões e referências do Design
 
 ## Pré-requisitos e execução
 
-Não há dependências de build, gerenciador de pacotes ou empacotador. É necessário um navegador atualizado com suporte a módulos ES6 e uma forma de servir os arquivos por HTTP. O servidor estático é necessário porque o roteador carrega as páginas com `fetch`; abrir o HTML diretamente via `file://` não oferece o mesmo funcionamento da navegação SPA.
+O projeto usa Node.js e npm para gerar uma versão de produção com Webpack. O bundle JavaScript é minificado; os documentos HTML, CSS e imagens são copiados para `dist` preservando a estrutura de caminhos usada pelas páginas. É necessário servir essa pasta por HTTP, pois o roteador carrega as páginas com `fetch`; abrir o HTML diretamente via `file://` não oferece o mesmo funcionamento da navegação SPA.
 
-Uma opção é usar o Python já instalado no ambiente, sem adicioná-lo como dependência do projeto:
+Na raiz do projeto, instale as dependências e gere o build:
 
-1. Abra um terminal na pasta raiz do projeto.
-2. Inicie um servidor estático:
+```powershell
+npm install
+npm run build
+```
 
-	```powershell
-	py -m http.server 8000
-	```
+Em seguida, sirva a saída de produção (com Python instalado):
 
-3. Acesse `http://localhost:8000/pages/index.html` no navegador.
+```powershell
+py -m http.server 8000 --directory dist
+```
 
-Também é possível usar uma extensão de servidor estático do VS Code. Para testar a navegação entre páginas, mantenha o servidor em execução. A CDN do SweetAlert2 requer conexão com a internet; sem ela, os avisos alternativos do formulário continuam disponíveis.
+Acesse `http://localhost:8000/pages/index.html`. Para testar alterações, rode `npm run build` novamente antes de recarregar a página. A CDN do SweetAlert2 requer conexão com a internet; sem ela, os avisos alternativos do formulário continuam disponíveis.
+
+O Webpack é configurado em `webpack.config.js`; `package.json` define o comando `build`. A saída `dist/` e `node_modules/` são artefatos locais e não devem ser versionados.
 
 ## Arquitetura modular e roteamento
 
